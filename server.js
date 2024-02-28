@@ -8,6 +8,8 @@ http
       q = new URL(addr, "http://" + request.headers.host),
       filePath = "";
 
+    console.log("Request URL:", addr);
+
     fs.appendFile(
       "log.txt",
       "URL: " + addr + "\nTimestamp: " + new Date() + "\n\n",
@@ -21,10 +23,12 @@ http
     );
 
     if (q.pathname.includes("documentation")) {
-      filePath = __dirname + "/documentation.html";
+      filePath = path.join(__dirname + "documentation.html");
     } else {
-      filePath = "index.html";
+      filePath = path.join(__dirname + "index.html");
     }
+
+    console.log("File Path:", filePath);
 
     fs.readFile(filePath, (err, data) => {
       if (err) {
