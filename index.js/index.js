@@ -1,13 +1,24 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
-const http = require("http");
+app.use(morgan("common"));
 
-http
-  .createServer((request, response) => {
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("Welcome to my book club!\n");
-  })
-  .listen(8080);
+app.use(express.static("public"));
 
-console.log("My first Node test server is running on Port 8080.");
+app.get("/", (req, res) => {
+  res.send("Welcome to my MyFlix App");
+});
+
+app.get("/movies", (req, res) => {
+  res.json(topMovies);
+});
+
+app.listen(8080, () => {
+  console.log("Your app is listening on port 8080.");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Uh oh! Something went wrong!");
+});
